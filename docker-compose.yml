@@ -6,6 +6,10 @@ services:
       - host
     environment:
       - CAMERA_URL
+      - MQTT_URL
+      - MQTT_PORT
+      - MQTT_USER
+      - MQTT_PASS
     command: python /tulikivi.py
 
 networks:
