@@ -1,15 +1,14 @@
 version: "2"
 services:
   opencv:
-    image: mohaseeb/raspberrypi3-python-opencv:4.1.0
+    build: .
     volumes:
-      - ./tulikivi.py:/tulikivi.py 
-    
+      - ./tulikivi.py:/tulikivi.py
     networks:
       - host
     environment:
       - CAMERA_URL
-    command: python /tulikivi.py 
+    command: python /tulikivi.py
 
 networks:
   host:

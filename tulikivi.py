@@ -3,8 +3,6 @@ import numpy as np
 import os
 import time
 
-starttime=time.time()
-
 
 def readTulikiviLight(frame):
   lower = np.array([0, 120, 150])
