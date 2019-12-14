@@ -2,8 +2,6 @@ version: "2"
 services:
   opencv:
     build: .
-    volumes:
-      - ./tulikivi.py:/tulikivi.py
     networks:
       - host
     environment:
