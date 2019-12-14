@@ -3,8 +3,8 @@ services:
   opencv:
     image: mohaseeb/raspberrypi3-python-opencv:4.1.0
     volumes:
-      - ./opencv_app.py:/opencv_app.py 
+      - ./tulikivi.py:/tulikivi.py 
     environment:
       - CAMERA_URL
-    command: python /opencv_app.py 
+    command: python /tulikivi.py 
 
