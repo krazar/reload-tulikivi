@@ -40,7 +40,7 @@ def analyseImage(cap):
 
 def process(cap, mqttClient):
   result = analyseImage(cap)
-  mqttClient.publish("tulikivi/state", result)
+  mqttClient.publish("tulikivi/state", result, qos=0, retain=True)
 
 def mqttConnection(url, port, user, password):
   client = mqttClient.Client("Python")               #create new instance
