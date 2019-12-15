@@ -9,8 +9,19 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to broker")
     global Connected                #Use global variable
     Connected = True                #Signal connection
+    client.subscribe("tulikivi/command")
+    cap = cv2.VideoCapture(url)
+    client.on_message = callbackMessage(cap)
+
   else:
     print("Connection failed")
+
+def callbackMessage(cap):
+  def on_message(client, userdata, message):
+    print("message received " , str(message.payload.decode("utf-8")))
+    process(cap, client)
+  return on_message
+
 
 def readTulikiviLight(frame):
   lower = np.array([0, 120, 150])
@@ -45,32 +56,21 @@ def process(cap, mqttClient):
 def mqttConnection(url, port, user, password):
   client = mqttClient.Client("Python")               #create new instance
   client.username_pw_set(user, password=password)    #set username and password
-  client.on_connect= on_connect                      #attach function to callback
-  client.connect(url, port=port)          #connect to broker
+  client.on_connect= on_connect
+  client.connect(url, port=port)
+  return client
 
-  client.loop_start()        #start the loop
+broker = os.environ['MQTT_URL']
+port = os.environ['MQTT_PORT']
+user = os.environ['MQTT_USER']
+password = os.environ['MQTT_PASS']
+url = os.environ['CAMERA_URL']
 
-  while Connected != True:    #Wait for connection
-    time.sleep(0.1)
-  return client;
+client = mqttConnection(broker, port, user, password)
+client.loop_forever()
 
 
 
-def main():
-  broker = os.environ['MQTT_URL']
-  port = os.environ['MQTT_PORT']
-  user = os.environ['MQTT_USER']
-  password = os.environ['MQTT_PASS']
-  url = os.environ['CAMERA_URL']
-  client = mqttConnection(broker, port, user, password)
-  cap = cv2.VideoCapture(url)
-  process(cap, client)
-  closeImage(cap)
-  client.disconnect()
-  client.loop_stop()
 
-Connected = False   #global variable for the state of the connection
-
-main()
 
 
