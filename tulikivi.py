@@ -37,7 +37,8 @@ def readTulikiviLight(frame):
   return ret
 
 def cropImage(frame):
-  return frame[250:295, 445:491]
+  return frame[cropy, cropx]
+#/return frame[201:231, 454:494]
 
 def closeImage(cap):
   cap.release()
@@ -65,6 +66,8 @@ port = os.environ['MQTT_PORT']
 user = os.environ['MQTT_USER']
 password = os.environ['MQTT_PASS']
 url = os.environ['CAMERA_URL']
+cropx = os.environ['CROP-x']
+cropy = os.environ['CROP-y']
 
 client = mqttConnection(broker, port, user, password)
 client.loop_forever()
